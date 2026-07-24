@@ -365,7 +365,7 @@ class BattleTable(val worldScreen: WorldScreen) : Table() {
                 val newSave = kotlinx.coroutines.runBlocking {
                     AuthoritativeUnitActions.requestAction(
                         worldScreen.gameInfo.gameId, "attack", unit,
-                        from.x, from.y, to.x, to.y
+                        from.x.toFloat(), from.y.toFloat(), to.x.toFloat(), to.y.toFloat()
                     ) { errMsg = it }
                 }
                 launchOnGLThread {

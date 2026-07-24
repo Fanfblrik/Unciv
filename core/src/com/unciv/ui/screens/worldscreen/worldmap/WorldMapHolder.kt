@@ -268,7 +268,7 @@ class WorldMapHolder(
                         val newSave = runBlocking {
                             AuthoritativeUnitActions.requestAction(
                                 worldScreen.gameInfo.gameId, "attack", unit,
-                                from.x, from.y, to.x, to.y
+                                from.x.toFloat(), from.y.toFloat(), to.x.toFloat(), to.y.toFloat()
                             ) { errMsg = it }
                         }
                         launchOnGLThread {
@@ -356,7 +356,7 @@ class WorldMapHolder(
                         worldScreen.gameInfo.gameId,
                         "move",
                         selectedUnit,
-                        from.x, from.y, to.x, to.y
+                        from.x.toFloat(), from.y.toFloat(), to.x.toFloat(), to.y.toFloat()
                     ) { errMsg = it }
                 }
                 if (newSave == null) {
