@@ -1107,6 +1107,17 @@ enum class UniqueType(
             "and forces loading from the server (not a local mid-turn copy), so players cannot " +
             "undo moves by rejoining the game."),
 
+    Civ5StyleMapResourceGeneration("Civ5-style map resource generation", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
+        docDescription = "Uses Civ5 AssignStartingPlots regional luxury tables, tops up random luxuries to a world target, " +
+            "and applies Civ5 bonus/strategic density multipliers. Without this unique, Unciv's default formulas are used."),
+    RegionalLuxuriesMapGenModifier("[relativeAmount]% regional luxuries during map generation", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
+        docDescription = "Multiplies regional luxury placement counts during map generation. Stacks with Civ5-style map resource generation when that unique is present."),
+    WorldLuxuryTargetMapGenModifier("[relativeAmount]% world luxury target during map generation", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
+        docDescription = "Multiplies the world luxury target used when topping up random luxuries. Only has effect together with Civ5-style map resource generation."),
+    BonusStrategicMapGenModifier("[relativeAmount]% bonus and strategic resources during map generation", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
+        docDescription = "Increases bonus and minor strategic density (divides the tiles-per-resource frequency). " +
+            "Stacks with Civ5-style map resource generation when that unique is present; without it, scales Unciv's default MapResources multipliers."),
+
     SuppressWarnings("Suppress warning [validationWarning]", *UniqueTarget.CanIncludeSuppression, flags = UniqueFlag.setOfHiddenNoConditionals, docDescription = Suppression.uniqueDocDescription),
 
     // Declarative Mod compatibility (see [ModCompatibility]):
