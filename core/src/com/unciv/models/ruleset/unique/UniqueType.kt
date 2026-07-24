@@ -273,15 +273,10 @@ enum class UniqueType(
     FreeExtraBeliefs("May choose [amount] additional [beliefType] beliefs when [foundingOrEnhancing] a religion", UniqueTarget.Global),
     FreeExtraAnyBeliefs("May choose [amount] additional belief(s) of any type when [foundingOrEnhancing] a religion", UniqueTarget.Global),
     StatsWhenAdoptingReligion("[stats] when a city adopts this religion for the first time", UniqueTarget.Global, flags = setOf(UniqueFlag.AcceptsSpeedModifier)),
-    ConvertAllCitiesWhenReligionFounded("All your cities convert to your religion when a religion is founded", UniqueTarget.Global),
-    NoNaturalReligionSpreadToForeignCities("No natural religion spread from your cities to foreign cities", UniqueTarget.Global,
-        docDescription = "Passive religious pressure from this civilization's cities does not affect foreign cities. Missionaries are unaffected."),
     NaturalReligionSpreadStrength("[relativeAmount]% Natural religion spread [cityFilter]", UniqueTarget.FollowerBelief, UniqueTarget.Global,
         docDescription = MULTIPLICATIVE_BONUS_EXPLANATION),
     ReligionSpreadDistance("Religion naturally spreads to cities [amount] tiles away", UniqueTarget.Global, UniqueTarget.FollowerBelief),
     MayNotGenerateGreatProphet("May not generate great prophet equivalents naturally", UniqueTarget.Global),
-    MayNotFoundReligion("May not found a religion", UniqueTarget.Global),
-    CannotSpreadReligionTo("Cannot spread religion to [civFilter] Civilizations", UniqueTarget.Global),
     FaithCostOfGreatProphetChange("[relativeAmount]% Faith cost of generating Great Prophet equivalents", UniqueTarget.Global),
 
     /// Espionage
@@ -291,13 +286,6 @@ enum class UniqueType(
     CounterIntelligenceSpyRankBonus("Spies in [cityFilter] cities act as though they have [relativeAmount] levels for [spyAction]", UniqueTarget.Global,
         docDescription = "Temporary effective rank change ([relativeAmount] added to rank, e.g. +1) for spies doing the given action in a matching city. " +
             "Does not permanently level the spy. Stacks additively, capped by maxSpyRank."),
-    ReducedTechStealWithCounterIntelligence(
-        "Enemy spies steal [relativeAmount]% of a technology in [cityFilter] when counter-intelligence is active",
-        UniqueTarget.Global,
-        docDescription = "When a defending counter-intelligence spy is present in a matching city, a successful steal " +
-            "grants research progress equal to [relativeAmount]% of the tech cost instead of the full technology. " +
-            "Example: [50]% for half. Stacks multiplicatively across matching uniques. Without this unique, steals remain full technology."
-    ),
 
     /// Things you get at the start of the game
     StartingTech("Starting tech", UniqueTarget.Tech),
@@ -311,14 +299,6 @@ enum class UniqueType(
     /// Misc.
     MayBuyConstructionsInPuppets("May buy items in puppet cities", UniqueTarget.Global),
     MayNotAnnexCities("May not annex cities", UniqueTarget.Global),
-    CitiesCannotBeLiberated("Cities cannot be liberated", UniqueTarget.Global,
-        docDescription = "Typically used with <for [AI player] Civilizations>. City-States can still be liberated unless they match the conditional."),
-    AlwaysAcceptsWhitePeace("Always accepts white peace", UniqueTarget.Global),
-    CannotVoteInWorldCongress("Cannot vote in World Congress", UniqueTarget.Global),
-    CannotTradeWith("Cannot trade with [civFilter] Civilizations", UniqueTarget.Global,
-        docDescription = "Peace treaties are still allowed. Typically used with <for [AI player] Civilizations>."),
-    CannotCoup("Cannot coup [civFilter] Civilizations", UniqueTarget.Global),
-    NoXpFromFighting("No XP from fighting [civFilter] Civilizations", UniqueTarget.Global),
     BorrowsCityNames("\"Borrows\" city names from other civilizations in the game", UniqueTarget.Global),
     CitiesAreRazedXTimesFaster("Cities are razed [amount] times as fast", UniqueTarget.Global),
 
@@ -1111,23 +1091,11 @@ enum class UniqueType(
         docDescription = "In this case, 'starting era' means the first defined Era in the entire ruleset."),
     AllowRazeCapital("Allow raze capital", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals),
     AllowRazeHolyCity("Allow raze holy city", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals),
-    DisableUndo("Disable undo", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
-        docDescription = "Disables the in-game Undo button and undo checkpoints. " +
-            "In online multiplayer, also uploads mid-turn progress to the server after actions " +
-            "and forces loading from the server (not a local mid-turn copy), so players cannot " +
-            "undo moves by rejoining the game."),
 
     Civ5StyleMapResourceGeneration("Civ5-style map resource generation", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
-        docDescription = "Uses Civ5 AssignStartingPlots regional luxury tables and tops up random luxuries to a world target. " +
-            "Does not change Unciv's default bonus/strategic frequency multipliers (those stay on MapResources). " +
-            "Without this unique, Unciv's default luxury formulas are used."),
-    RegionalLuxuriesMapGenModifier("[relativeAmount]% regional luxuries during map generation", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
-        docDescription = "Multiplies regional luxury placement counts during map generation. Stacks with Civ5-style map resource generation when that unique is present."),
-    WorldLuxuryTargetMapGenModifier("[relativeAmount]% world luxury target during map generation", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
-        docDescription = "Multiplies the world luxury target used when topping up random luxuries. Only has effect together with Civ5-style map resource generation."),
-    BonusStrategicMapGenModifier("[relativeAmount]% bonus and strategic resources during map generation", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
-        docDescription = "Increases bonus and minor strategic density by dividing Unciv's MapResources tiles-per-resource frequency. " +
-            "Independent of Civ5-style map resource generation."),
+        docDescription = "Uses Civ5 AssignStartingPlots resource density: regional luxury tables, random luxuries topped up to a world target, " +
+            "and Civ5 bonus_multiplier for bonus resources / minor strategic deposits. Without this unique, Unciv's default formulas are used."),
+
     GreatPersonPointsAccumulatePerCity("Great Person points accumulate per city", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
         docDescription = "BNW-style: each city has its own Great Person point counters; when a city reaches the threshold, " +
             "the Great Person is born in that city. The points required for the next Great Person of that type still increase empire-wide. " +
