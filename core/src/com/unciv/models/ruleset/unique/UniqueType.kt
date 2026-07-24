@@ -1118,15 +1118,16 @@ enum class UniqueType(
             "undo moves by rejoining the game."),
 
     Civ5StyleMapResourceGeneration("Civ5-style map resource generation", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
-        docDescription = "Uses Civ5 AssignStartingPlots regional luxury tables, tops up random luxuries to a world target, " +
-            "and applies Civ5 bonus/strategic density multipliers. Without this unique, Unciv's default formulas are used."),
+        docDescription = "Uses Civ5 AssignStartingPlots regional luxury tables and tops up random luxuries to a world target. " +
+            "Does not change Unciv's default bonus/strategic frequency multipliers (those stay on MapResources). " +
+            "Without this unique, Unciv's default luxury formulas are used."),
     RegionalLuxuriesMapGenModifier("[relativeAmount]% regional luxuries during map generation", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
         docDescription = "Multiplies regional luxury placement counts during map generation. Stacks with Civ5-style map resource generation when that unique is present."),
     WorldLuxuryTargetMapGenModifier("[relativeAmount]% world luxury target during map generation", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
         docDescription = "Multiplies the world luxury target used when topping up random luxuries. Only has effect together with Civ5-style map resource generation."),
     BonusStrategicMapGenModifier("[relativeAmount]% bonus and strategic resources during map generation", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
-        docDescription = "Increases bonus and minor strategic density (divides the tiles-per-resource frequency). " +
-            "Stacks with Civ5-style map resource generation when that unique is present; without it, scales Unciv's default MapResources multipliers."),
+        docDescription = "Increases bonus and minor strategic density by dividing Unciv's MapResources tiles-per-resource frequency. " +
+            "Independent of Civ5-style map resource generation."),
     GreatPersonPointsAccumulatePerCity("Great Person points accumulate per city", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
         docDescription = "BNW-style: each city has its own Great Person point counters; when a city reaches the threshold, " +
             "the Great Person is born in that city. The points required for the next Great Person of that type still increase empire-wide. " +
