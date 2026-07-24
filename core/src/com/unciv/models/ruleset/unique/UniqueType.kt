@@ -1127,6 +1127,10 @@ enum class UniqueType(
     BonusStrategicMapGenModifier("[relativeAmount]% bonus and strategic resources during map generation", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
         docDescription = "Increases bonus and minor strategic density (divides the tiles-per-resource frequency). " +
             "Stacks with Civ5-style map resource generation when that unique is present; without it, scales Unciv's default MapResources multipliers."),
+    GreatPersonPointsAccumulatePerCity("Great Person points accumulate per city", UniqueTarget.ModOptions, flags = UniqueFlag.setOfNoConditionals,
+        docDescription = "BNW-style: each city has its own Great Person point counters; when a city reaches the threshold, " +
+            "the Great Person is born in that city. The points required for the next Great Person of that type still increase empire-wide. " +
+            "Without this unique, points accumulate in one civilization-wide pool (current Unciv default)."),
 
     SuppressWarnings("Suppress warning [validationWarning]", *UniqueTarget.CanIncludeSuppression, flags = UniqueFlag.setOfHiddenNoConditionals, docDescription = Suppression.uniqueDocDescription),
 
