@@ -34,6 +34,11 @@ class TradeEvaluation {
             || (tradePartner.hasEverOwnedOriginalCapital && trade.theirOffers.count { it.type == TradeOfferType.City } == tradePartner.cities.size)) {
             return false
         }
+
+        if ((offerer.getMatchingUniques(UniqueType.CannotTradeWith).any { tradePartner.matchesFilter(it.params[0]) }
+            || tradePartner.getMatchingUniques(UniqueType.CannotTradeWith).any { offerer.matchesFilter(it.params[0]) })
+            && !trade.isPeaceTreaty())
+            return false
         
         // No way to tell who offers what in isOfferValid()
         val embassyOffer = TradeOffer(Constants.acceptEmbassy, TradeOfferType.Embassy, speed = offerer.gameInfo.speed)
@@ -102,11 +107,18 @@ class TradeEvaluation {
 
     @Readonly
     fun isTradeAcceptable(trade: Trade, evaluator: Civilization, tradePartner: Civilization): Boolean {
+        if (evaluator.hasUnique(UniqueType.AlwaysAcceptsWhitePeace)
+            && isWhitePeace(trade))
+            return true
         return getTradeAcceptability(trade, evaluator, tradePartner, true) >= 0
     }
 
     @Readonly
     fun getTradeAcceptability(trade: Trade, evaluator: Civilization, tradePartner: Civilization, includeDiplomaticGifts:Boolean = false): Int {
+        if (evaluator.hasUnique(UniqueType.AlwaysAcceptsWhitePeace)
+            && isWhitePeace(trade))
+            return 1
+
         val citiesAskedToSurrender = trade.ourOffers.count { it.type == TradeOfferType.City }
         val maxCitiesToSurrender = ceil(evaluator.cities.size.toFloat() / 5).toInt()
         if (citiesAskedToSurrender > maxCitiesToSurrender) {
@@ -510,6 +522,8 @@ class TradeEvaluation {
 
     @Readonly
     fun evaluatePeaceCostForThem(ourCiv: Civilization, otherCiv: Civilization): Int {
+        if (ourCiv.hasUnique(UniqueType.AlwaysAcceptsWhitePeace))
+            return 0
         val ourCombatStrength = ourCiv.getStatForRanking(RankingType.Force)
         val theirCombatStrength = otherCiv.getStatForRanking(RankingType.Force)
         if (ourCombatStrength * 1.5f >= theirCombatStrength && theirCombatStrength * 1.5f >= ourCombatStrength)
@@ -559,4 +573,11 @@ class TradeEvaluation {
             ?: return 0
         return unique.params[0].toInt()
     }
+
+    /** Peace treaty with no other offers on either side. */
+    @Readonly
+    private fun isWhitePeace(trade: Trade) =
+        trade.isPeaceTreaty()
+            && trade.ourOffers.all { it.name == Constants.peaceTreaty }
+            && trade.theirOffers.all { it.name == Constants.peaceTreaty }
 }
